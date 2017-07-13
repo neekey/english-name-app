@@ -1,0 +1,22 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "react/jsx-closing-bracket-location": [1, "after-props"],
+    "new-cap": ["error", {"capIsNew": false}],
+    "no-unused-expressions": 0,
+    "prefer-arrow-callback": 0,
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": { config: 'webpack.config.js' },
+    },
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+    }
+  },
+}
