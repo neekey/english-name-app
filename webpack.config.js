@@ -76,6 +76,10 @@ var webpackConfig = {
       chunks: ['index'],
     }),
   ],
+  devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true,
+  },
   resolve: {
     modules: [
       'node_modules',

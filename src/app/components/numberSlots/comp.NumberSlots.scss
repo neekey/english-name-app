@@ -1,0 +1,37 @@
+.slot {
+  display: inline-block;
+  height: 4rem;
+  line-height: 4rem;
+  width: 3rem;
+  background: #ccc;
+  border-radius: 5px;
+  vertical-align: middle;
+  color: white;
+  font-size: 2rem;
+  border: 1px solid #999;
+  transition: all 0.5s;
+
+  & + & {
+    margin-left: 5px;
+  }
+}
+
+.container {
+  overflow: hidden;
+}
+
+.container-correct {
+  composes: container;
+  .slot {
+    background: limegreen;
+    border: 1px solid limegreen;
+  }
+}
+
+.container-incorrect {
+  composes: container;
+  .slot {
+    background: red;
+    border: 1px solid red;
+  }
+}
