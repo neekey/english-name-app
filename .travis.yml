@@ -12,8 +12,8 @@ script:
   - make build
 deploy:
   skip_cleanup: true
-	provider: s3
-	local_dir: dist
+  provider: s3
+  local_dir: dist
   bucket: "english-number.com"
   region: ap-southeast-2
   secret_access_key:
