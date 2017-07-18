@@ -24,11 +24,37 @@ function getColor() {
 }
 
 export default class NumberKeyboard extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
+  }
+
   getButton(value, text, color) {
     return (<div
       style={{ backgroundColor: color }}
       className={style.keyButton}
       onClick={() => this.props.onKeyPress(value)}>{text}</div>);
+  }
+
+  handleWindowKeyPress(e) {
+    const code = e.which;
+    if (code >= 48 && code <= 57) {
+      this.props.onKeyPress(String(code - 48));
+    }
+    if (code === 190) {
+      this.props.onKeyPress('.');
+    }
+    if (code === 8) {
+      this.props.onKeyPress('delete');
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleWindowKeyPress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleWindowKeyPress);
   }
 
   render() {

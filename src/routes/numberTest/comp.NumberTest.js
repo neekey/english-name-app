@@ -18,6 +18,7 @@ export default class NumberTest extends React.PureComponent {
   }
 
   onRestartTest() {
+    this.props.onRestart();
     this.setState({
       currentIndex: 0,
       userInput: '',
@@ -92,4 +93,10 @@ export default class NumberTest extends React.PureComponent {
 
 NumberTest.propTypes = {
   numberDataList: PropTypes.array,
+  onRestart: PropTypes.func,
+};
+
+NumberTest.defaultProps = {
+  numberDataList: [],
+  onRestart: () => null,
 };
