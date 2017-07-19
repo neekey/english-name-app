@@ -7,6 +7,7 @@
   position: fixed;
   bottom: 0;
   left: 0;
+  box-shadow: 0 1px 6px rgba(0,0,0,.2);
 }
 
 .number-voice {
@@ -15,5 +16,19 @@
 }
 
 .number-slots {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.success-content {
+  padding-top: 100px;
+}
+
+.success-icon {
+  width: 100px;
+}
+
+@media (max-height: 900px) {
+  .container {
+    padding-top: 20px;
+  }
 }

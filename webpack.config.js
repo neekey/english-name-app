@@ -39,6 +39,9 @@ var webpackConfig = {
           { loader: 'style-loader'},
           {
             loader: 'css-loader',
+            options: {
+              minimize: true,
+            },
           },
         ],
       },
@@ -49,7 +52,7 @@ var webpackConfig = {
           {
             loader: 'css-loader',
             options: {
-              minimize: false,
+              minimize: true,
               module: true,
               camelCase: true,
               localIdentName: '[local]-[hash:5]',
@@ -61,9 +64,22 @@ var webpackConfig = {
         ],
       },
       {
-        test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,
+        test: /\.(png|jpg|gif)$/,
         use: [
-          { loader: 'file-loader' },
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1024*15,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff|svg|eot|ttf|woff2)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
         ],
       },
     ],

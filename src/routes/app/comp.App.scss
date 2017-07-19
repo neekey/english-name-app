@@ -3,3 +3,36 @@
   height: 100%;
   text-align: center;
 }
+
+.logo {
+  line-height: 50px;
+  text-align: left;
+  padding: 10px;
+  font-size: 20px;
+
+  a, a:hover {
+    color: black;
+  }
+
+  img {
+    width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+}
+
+@media (max-height: 900px) {
+  .logo {
+    line-height: 30px;
+    text-align: left;
+    padding: 10px;
+    font-size: 18px;
+
+    img {
+      width: 30px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+  }
+}
+

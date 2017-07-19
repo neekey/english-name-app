@@ -1,0 +1,35 @@
+@keyframes circle-breath {
+  0% { transform: scale(0.9);}
+  50% { transform: scale(1) }
+  100% { transform: scale(0.9); }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 73px);
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.start-button {
+  text-align: center;
+  height: 200px;
+  width: 200px;
+  line-height: 200px;
+  display: block;
+  background: black;
+  border-radius: 50%;
+  color: white;
+  transition: all 1s;
+  animation-name: circle-breath;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+
+
+  &:hover, &:active {
+    color: black;
+    background: white;
+  }
+}

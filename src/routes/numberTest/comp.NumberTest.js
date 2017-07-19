@@ -4,6 +4,8 @@ import NumberVoice from './comp.NumberVoice';
 import NumberKeyboard from 'app/components/numberKeyboard';
 import NumberSlots from 'app/components/numberSlots';
 import style from './comp.NumberTest.scss';
+import { IS_MOBILE } from 'app/utils/device';
+import successImg from './tada.png';
 
 export default class NumberTest extends React.PureComponent {
   constructor(props) {
@@ -15,6 +17,23 @@ export default class NumberTest extends React.PureComponent {
     this.onRestartTest = this.onRestartTest.bind(this);
     this.onNextTest = this.onNextTest.bind(this);
     this.onNumberKeyPress = this.onNumberKeyPress.bind(this);
+    this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
+    this.onClearUserInput = this.onClearUserInput.bind(this);
+  }
+
+  handleWindowKeyPress(e) {
+    const code = e.which;
+    if (code === 13 && this.isUserInputCorrect()) {
+      this.onNextTest();
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleWindowKeyPress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleWindowKeyPress);
   }
 
   onRestartTest() {
@@ -28,6 +47,12 @@ export default class NumberTest extends React.PureComponent {
   onNextTest() {
     this.setState({
       currentIndex: this.state.currentIndex + 1,
+      userInput: '',
+    });
+  }
+
+  onClearUserInput() {
+    this.setState({
       userInput: '',
     });
   }
@@ -47,9 +72,10 @@ export default class NumberTest extends React.PureComponent {
   }
 
   getFinishedView() {
-    return (<div>
+    return (<div className={style.successContent}>
+      <img className={style.successIcon} src={successImg} alt="tada" />
       <h2>You finished all the test!</h2>
-      <button className="ui button primary" onClick={this.onRestartTest}>Restart</button>
+      <button className="ui button secondary" onClick={this.onRestartTest}>Another Round!</button>
     </div>);
   }
 
@@ -57,8 +83,15 @@ export default class NumberTest extends React.PureComponent {
     return this.props.numberDataList[this.state.currentIndex];
   }
 
-  hasMoveTest() {
-    return this.props.numberDataList.length - 1 > this.state.currentIndex;
+  hasTestFinished() {
+    return !this.props.numberDataList[this.state.currentIndex];
+  }
+
+  isUserInputCorrect() {
+    const data = this.getCurrentNumberData();
+    const userInput = this.state.userInput;
+    const numberString = String(data.number);
+    return userInput === numberString;
   }
 
   getTestView() {
@@ -66,7 +99,7 @@ export default class NumberTest extends React.PureComponent {
     const userInput = this.state.userInput;
     const numberString = String(data.number);
     const numberAmount = numberString.length;
-    const correct = userInput === numberString;
+    const correct = this.isUserInputCorrect();
     return (<div className={style.container}>
       <NumberVoice className={style.numberVoice} number={data.number} voiceURL={data.url} />
       <NumberSlots
@@ -75,17 +108,24 @@ export default class NumberTest extends React.PureComponent {
         slotAmount={numberAmount}
         number={userInput} />
       <button
-        disabled={!correct}
         className="ui button basic"
+        onClick={this.onClearUserInput}>Clear</button>
+      <button
+        disabled={!correct}
+        className="ui button primary"
         onClick={this.onNextTest}>Next</button>
-      <NumberKeyboard className={style.numberKeyboard} onKeyPress={this.onNumberKeyPress} />
+      <NumberKeyboard
+        colorIndex={this.state.currentIndex}
+        showKeyboard={IS_MOBILE}
+        className={style.numberKeyboard}
+        onKeyPress={this.onNumberKeyPress} />
     </div>);
   }
 
   render() {
-    const hasMoveTest = this.hasMoveTest();
+    const hasTestFinished = this.hasTestFinished();
     return (<div>
-      {hasMoveTest ? this.getTestView() : this.getFinishedView()}
+      {hasTestFinished ? this.getFinishedView() : this.getTestView()}
     </div>);
   }
 }

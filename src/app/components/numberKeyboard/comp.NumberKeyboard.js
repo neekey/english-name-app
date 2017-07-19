@@ -59,7 +59,7 @@ export default class NumberKeyboard extends React.PureComponent {
 
   render() {
     const color = getColor();
-    return (<div
+    return this.props.showKeyboard ? (<div
       className={classnames(style.container, this.props.className)}>
       {this.getButton('1', 1, color)}
       {this.getButton('2', 2, color)}
@@ -73,12 +73,14 @@ export default class NumberKeyboard extends React.PureComponent {
       {this.getButton('.', '.', color)}
       {this.getButton('0', 0, color)}
       {this.getButton('delete', 'DEL', color)}
-    </div>);
+    </div>) : null;
   }
 }
 
 NumberKeyboard.propTypes = {
+  colorIndex: PropTypes.any,
   onKeyPress: PropTypes.func,
+  showKeyboard: PropTypes.bool,
 };
 
 NumberKeyboard.defaultProps = {

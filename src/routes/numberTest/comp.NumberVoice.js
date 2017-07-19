@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
+import style from './comp.NumberVoice.scss';
 
 export default class NumberDetail extends React.PureComponent {
   constructor(props) {
@@ -43,10 +44,13 @@ export default class NumberDetail extends React.PureComponent {
   }
 
   render() {
-    return (<div className={this.props.className}>
+    return (<div
+      className={this.props.className}
+      onClick={this.state.loading ? undefined : this.onHandlePlay}>
       {this.state.loading ?
         <i className="icon spinner" /> :
-        <i onClick={this.onHandlePlay} className="icon talk outline" />}
+        <i className="icon talk outline" />}
+      <span className={style.voiceTip}>Tap Me To Play</span>
       <ReactHowler
         src={this.props.voiceURL}
         loop={false}
