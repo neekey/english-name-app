@@ -6,6 +6,7 @@ import NumberSlots from 'app/components/numberSlots';
 import style from './comp.NumberTest.scss';
 import { IS_MOBILE } from 'app/utils/device';
 import successImg from './tada.png';
+import FacebookProvider, { Share } from 'react-facebook';
 
 export default class NumberTest extends React.PureComponent {
   constructor(props) {
@@ -76,6 +77,13 @@ export default class NumberTest extends React.PureComponent {
       <img className={style.successIcon} src={successImg} alt="tada" />
       <h2>You finished all the test!</h2>
       <button className="ui button secondary" onClick={this.onRestartTest}>Another Round!</button>
+      <FacebookProvider appId="106304146686329">
+        <Share href="http://english-number.com">
+          <button className="ui button primary">
+            <i className="icon facebook square" />Share
+          </button>
+        </Share>
+      </FacebookProvider>
     </div>);
   }
 

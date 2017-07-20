@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHowler from 'react-howler';
 import style from './comp.NumberVoice.scss';
+import classnames from 'classnames';
 
 export default class NumberDetail extends React.PureComponent {
   constructor(props) {
@@ -45,7 +46,7 @@ export default class NumberDetail extends React.PureComponent {
 
   render() {
     return (<div
-      className={this.props.className}
+      className={classnames(style.container, this.props.className)}
       onClick={this.state.loading ? undefined : this.onHandlePlay}>
       {this.state.loading ?
         <i className="icon spinner" /> :

@@ -21,6 +21,13 @@
   }
 }
 
+a.facebook-site {
+  transition: all 0.5s;
+  float: right;
+  font-size: 30px;
+  color: #3b5998;
+}
+
 @media (max-height: 900px) {
   .logo {
     line-height: 30px;
@@ -35,4 +42,5 @@
     }
   }
 }
+
 
