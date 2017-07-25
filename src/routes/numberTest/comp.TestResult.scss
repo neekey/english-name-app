@@ -1,0 +1,67 @@
+.container {
+
+}
+
+.list {
+  padding: 0;
+}
+
+.item {
+  display: block;
+  padding: 10px 10px 10px 50px;
+  letter-spacing: 2px;
+
+  & + & {
+    border-top: 1px solid #ccc;
+  }
+}
+
+.sound-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 20px !important;
+  margin-left: 20px !important;
+  cursor: pointer;
+}
+
+.correct-mark {
+  display: inline-block;
+  color: limegreen;
+  vertical-align: middle;
+  font-size: 24px !important;
+}
+
+.incorrect-mark {
+  display: inline-block;
+  color: red;
+  vertical-align: middle;
+  font-size: 24px !important;
+}
+
+.correct-numbers {
+  display: inline-block;
+  vertical-align: middle;
+  color: limegreen;
+}
+
+.incorrect-numbers-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.incorrect-numbers {
+  display: block;
+}
+
+.correct-number {
+  color: limegreen;
+}
+
+.incorrect-number {
+  color: red;
+  text-decoration: line-through;
+}
+
+.hidden-number {
+  color: #ccc;
+}

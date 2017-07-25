@@ -27,6 +27,17 @@
   width: 100px;
 }
 
+.result-text {
+  margin-bottom: 20px;
+}
+
+.test-result-container {
+  font-size: 20px;
+  max-width: 270px;
+  margin: auto;
+  text-align: left;
+}
+
 @media (max-height: 900px) {
   .container {
     padding-top: 20px;

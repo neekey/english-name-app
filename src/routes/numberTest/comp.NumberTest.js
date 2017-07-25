@@ -5,7 +5,10 @@ import NumberKeyboard from 'app/components/numberKeyboard';
 import NumberSlots from 'app/components/numberSlots';
 import style from './comp.NumberTest.scss';
 import { IS_MOBILE } from 'app/utils/device';
-import successImg from './tada.png';
+import TestResult from './comp.TestResult';
+import resultGoodImg from './result_good.png';
+import resultBadImg from './result_bad.png';
+import resultCanDoBetterImg from './result_can_do_better.png';
 import FacebookProvider, { Share } from 'react-facebook';
 
 export default class NumberTest extends React.PureComponent {
@@ -14,6 +17,8 @@ export default class NumberTest extends React.PureComponent {
     this.state = {
       currentIndex: 0,
       userInput: '',
+      history: [],
+      completeCurrentNumberOnce: false,
     };
     this.onRestartTest = this.onRestartTest.bind(this);
     this.onNextTest = this.onNextTest.bind(this);
@@ -37,11 +42,22 @@ export default class NumberTest extends React.PureComponent {
     window.removeEventListener('keydown', this.handleWindowKeyPress);
   }
 
+  saveUserResult(userFirstInput) {
+    const history = [...this.state.history];
+    history.push(userFirstInput);
+    this.setState({
+      history,
+    });
+  }
+
+
   onRestartTest() {
     this.props.onRestart();
     this.setState({
       currentIndex: 0,
       userInput: '',
+      completeCurrentNumberOnce: false,
+      history: [],
     });
   }
 
@@ -49,6 +65,7 @@ export default class NumberTest extends React.PureComponent {
     this.setState({
       currentIndex: this.state.currentIndex + 1,
       userInput: '',
+      completeCurrentNumberOnce: false,
     });
   }
 
@@ -61,29 +78,75 @@ export default class NumberTest extends React.PureComponent {
   onNumberKeyPress(key) {
     const userInput = this.state.userInput;
     const data = this.getCurrentNumberData();
+    const currentNumber = String(data.number);
+    let newUserInput = userInput;
+
     if (key === 'delete') {
-      this.setState({
-        userInput: userInput.slice(0, userInput.length - 1),
-      });
-    } else if (userInput.length < String(data.number).length) {
-      this.setState({
-        userInput: userInput + key,
-      });
+      newUserInput = userInput.slice(0, userInput.length - 1);
+    } else if (userInput.length < String(currentNumber).length) {
+      newUserInput = userInput + key;
     }
+    this.setState({
+      userInput: newUserInput,
+    });
+
+    if (!this.state.completeCurrentNumberOnce && newUserInput.length === currentNumber.length) {
+      this.state.completeCurrentNumberOnce = true;
+      this.saveUserResult(newUserInput);
+    }
+  }
+
+  getTestResult() {
+    return (<TestResult
+      actualNumbers={this.state.history}
+      expectedNumbers={this.props.numberDataList.map(item => item.number)} />);
+  }
+
+  getCorrectRate() {
+    const actualNumbers = this.state.history;
+    const expectNumbers = this.props.numberDataList.map(item => item.number);
+    let correctCount = 0;
+    expectNumbers.forEach((correctNumber, index) => {
+      if (String(correctNumber) === String(actualNumbers[index])) {
+        correctCount++;
+      }
+    });
+    return correctCount / expectNumbers.length;
+  }
+
+  getResultText() {
+    const rate = this.getCorrectRate();
+    let imgSrc = resultGoodImg;
+    let text = 'You are awesome!';
+    if (rate < 0.5) {
+      imgSrc = resultBadImg;
+      text = 'Oops! You better work hard on it!';
+    } else if (rate < 1) {
+      imgSrc = resultCanDoBetterImg;
+      text = 'Well done! You can do it better!';
+    }
+    return (<div className={style.resultText}>
+      <img className={style.successIcon} src={imgSrc} alt="tada" />
+      <h2>{text}</h2>
+    </div>);
   }
 
   getFinishedView() {
     return (<div className={style.successContent}>
-      <img className={style.successIcon} src={successImg} alt="tada" />
-      <h2>You finished all the test!</h2>
+      {this.getResultText()}
       <button className="ui button secondary" onClick={this.onRestartTest}>Another Round!</button>
       <FacebookProvider appId="106304146686329">
         <Share href="http://english-number.com">
           <button className="ui button primary">
-            <i className="icon facebook square" />Share
+            <i className="icon facebook square" />Share This App
           </button>
         </Share>
       </FacebookProvider>
+      <div>
+        <div className={style.testResultContainer}>
+          {this.getTestResult()}
+        </div>
+      </div>
     </div>);
   }
 
