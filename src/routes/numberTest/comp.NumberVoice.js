@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactHowler from 'react-howler';
 import style from './comp.NumberVoice.scss';
 import classnames from 'classnames';
+import { playVoice } from 'app/utils/numberVoice';
 
-export default class NumberDetail extends React.PureComponent {
+export default class NumberVoice extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,13 +16,25 @@ export default class NumberDetail extends React.PureComponent {
     this.onHandlePlay = this.onHandlePlay.bind(this);
   }
 
+  componentDidMount() {
+    this.playVoice();
+  }
+
   componentWillReceiveProps(newProps) {
-    if (this.props.voiceURL !== newProps.voiceURL) {
+    if (this.props.number !== newProps.number) {
       this.setState({
-        loading: true,
+        loadiang: true,
         playing: true,
       });
+      this.playVoice(newProps.number);
     }
+  }
+
+  playVoice(number) {
+    playVoice(number || this.props.number, {
+      onLoad: this.onVoiceLoaded,
+      onEnd: this.onVoiceEnded,
+    });
   }
 
   onVoiceLoaded() {
@@ -39,9 +51,7 @@ export default class NumberDetail extends React.PureComponent {
   }
 
   onHandlePlay() {
-    this.setState({
-      playing: true,
-    });
+    this.playVoice();
   }
 
   render() {
@@ -52,16 +62,10 @@ export default class NumberDetail extends React.PureComponent {
         <i className="icon spinner" /> :
         <i className="icon talk outline" />}
       <span className={style.voiceTip}>Tap Me To Play</span>
-      <ReactHowler
-        src={this.props.voiceURL}
-        loop={false}
-        onLoad={this.onVoiceLoaded}
-        onEnd={this.onVoiceEnded}
-        playing={this.state.playing} />
     </div>);
   }
 }
 
-NumberDetail.propTypes = {
-  voiceURL: PropTypes.string,
+NumberVoice.propTypes = {
+  number: PropTypes.number,
 };

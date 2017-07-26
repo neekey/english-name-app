@@ -9,22 +9,22 @@ export default class NumberTestContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      numberDataList: this.buildNumberDataList(),
+      numbers: this.buildNumbers(),
     };
     this.onRestart = this.onRestart.bind(this);
   }
 
-  buildNumberDataList() {
+  buildNumbers() {
     return createNumberTest(10, ALL_NUMBER_DATA);
   }
 
   onRestart() {
     this.setState({
-      numberDataList: this.buildNumberDataList(),
+      numbers: this.buildNumbers(),
     });
   }
 
   render() {
-    return <NumberTest numberDataList={this.state.numberDataList} onRestart={this.onRestart} />;
+    return <NumberTest numbers={this.state.numbers} onRestart={this.onRestart} />;
   }
 }

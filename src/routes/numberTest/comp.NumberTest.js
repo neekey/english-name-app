@@ -77,8 +77,7 @@ export default class NumberTest extends React.PureComponent {
 
   onNumberKeyPress(key) {
     const userInput = this.state.userInput;
-    const data = this.getCurrentNumberData();
-    const currentNumber = String(data.number);
+    const currentNumber = String(this.getCurrentNumber());
     let newUserInput = userInput;
 
     if (key === 'delete') {
@@ -99,12 +98,12 @@ export default class NumberTest extends React.PureComponent {
   getTestResult() {
     return (<TestResult
       actualNumbers={this.state.history}
-      expectedNumbers={this.props.numberDataList.map(item => item.number)} />);
+      expectedNumbers={this.props.numbers} />);
   }
 
   getCorrectRate() {
     const actualNumbers = this.state.history;
-    const expectNumbers = this.props.numberDataList.map(item => item.number);
+    const expectNumbers = this.props.numbers;
     let correctCount = 0;
     expectNumbers.forEach((correctNumber, index) => {
       if (String(correctNumber) === String(actualNumbers[index])) {
@@ -150,29 +149,29 @@ export default class NumberTest extends React.PureComponent {
     </div>);
   }
 
-  getCurrentNumberData() {
-    return this.props.numberDataList[this.state.currentIndex];
+  getCurrentNumber() {
+    return this.props.numbers[this.state.currentIndex];
   }
 
   hasTestFinished() {
-    return !this.props.numberDataList[this.state.currentIndex];
+    return this.props.numbers[this.state.currentIndex] === undefined;
   }
 
   isUserInputCorrect() {
-    const data = this.getCurrentNumberData();
+    const currentNumber = this.getCurrentNumber();
     const userInput = this.state.userInput;
-    const numberString = String(data.number);
+    const numberString = String(currentNumber);
     return userInput === numberString;
   }
 
   getTestView() {
-    const data = this.getCurrentNumberData();
+    const currentNumber = this.getCurrentNumber();
     const userInput = this.state.userInput;
-    const numberString = String(data.number);
+    const numberString = String(currentNumber);
     const numberAmount = numberString.length;
     const correct = this.isUserInputCorrect();
     return (<div className={style.container}>
-      <NumberVoice className={style.numberVoice} number={data.number} voiceURL={data.url} />
+      <NumberVoice className={style.numberVoice} number={currentNumber} />
       <NumberSlots
         className={style.numberSlots}
         correct={correct}
@@ -203,11 +202,11 @@ export default class NumberTest extends React.PureComponent {
 
 
 NumberTest.propTypes = {
-  numberDataList: PropTypes.array,
+  numbers: PropTypes.array,
   onRestart: PropTypes.func,
 };
 
 NumberTest.defaultProps = {
-  numberDataList: [],
+  numbers: [],
   onRestart: () => null,
 };

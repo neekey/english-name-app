@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './comp.TestResult.scss';
 import classnames from 'classnames';
+import { playVoice } from 'app/utils/numberVoice';
 
 export default class TestResult extends React.PureComponent {
   renderResult(expectNumber, actualNumber) {
+    const soundIconClassName = classnames(style.soundIcon, 'icon sound');
     const correctMarkClassName = classnames(style.correctMark, 'icon checkmark');
     const incorrectMarkClassName = classnames(style.incorrectMark, 'icon remove');
     const extString = String(expectNumber);
     const actString = String(actualNumber);
+    const onNumberPlay = () => playVoice(expectNumber);
     if (extString === actString) {
       return (<div key={actualNumber} className={style.item}>
         <i className={correctMarkClassName} />
+        <i className={soundIconClassName} onClick={onNumberPlay} />
         <span className={style.correctNumbers}>{extString}</span>
       </div>);
     }
@@ -19,6 +23,7 @@ export default class TestResult extends React.PureComponent {
     const actList = actString.split('');
     return (<div key={actualNumber} className={style.item}>
       <i className={incorrectMarkClassName} />
+      <i className={soundIconClassName} onClick={onNumberPlay} />
       <span className={style.incorrectNumbersWrapper}>
         <span className={style.incorrectNumbers}>
           {exList.map((en, index) => {
@@ -51,9 +56,7 @@ export default class TestResult extends React.PureComponent {
 TestResult.propTypes = {
   expectedNumbers: PropTypes.array,
   actualNumbers: PropTypes.array,
-  onNumberPlay: PropTypes.func,
 };
 
 TestResult.defaultProps = {
-  onNumberPlay: PropTypes.func,
 };

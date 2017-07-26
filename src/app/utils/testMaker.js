@@ -24,7 +24,7 @@ export function createNumberTest(questionNumber, allAvailableNumberData, highest
   const questions = [];
   while (questions.length < questionNumber) {
     const nextNumber = allAvailableNumberData[Math.floor(Math.random() * totalLength)];
-    if (nextNumber.number < highest) {
+    if (nextNumber < highest && !questions.includes(nextNumber)) {
       questions.push(nextNumber);
     }
   }
