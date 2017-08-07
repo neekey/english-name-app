@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import style from './comp.TestResult.scss';
 import classnames from 'classnames';
 import { playVoice } from 'app/utils/numberVoice';
+import { track, EVENT_TYPE_PRODUCT } from 'app/utils/eventTrack';
 
 export default class TestResult extends React.PureComponent {
   renderResult(expectNumber, actualNumber) {
@@ -11,7 +12,10 @@ export default class TestResult extends React.PureComponent {
     const incorrectMarkClassName = classnames(style.incorrectMark, 'icon remove');
     const extString = String(expectNumber);
     const actString = String(actualNumber);
-    const onNumberPlay = () => playVoice(expectNumber);
+    const onNumberPlay = () => {
+      playVoice(expectNumber);
+      track('result-play-voice', EVENT_TYPE_PRODUCT);
+    };
     if (extString === actString) {
       return (<div key={actualNumber} className={style.item}>
         <i className={correctMarkClassName} />

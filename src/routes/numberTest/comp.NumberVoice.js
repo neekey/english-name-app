@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import style from './comp.NumberVoice.scss';
 import classnames from 'classnames';
 import { playVoice } from 'app/utils/numberVoice';
+import { track, EVENT_TYPE_PRODUCT } from 'app/utils/eventTrack';
 
 export default class NumberVoice extends React.PureComponent {
   constructor(props) {
@@ -52,6 +53,7 @@ export default class NumberVoice extends React.PureComponent {
 
   onHandlePlay() {
     this.playVoice();
+    track('play-voice', EVENT_TYPE_PRODUCT);
   }
 
   render() {

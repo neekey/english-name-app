@@ -10,6 +10,7 @@ import resultGoodImg from './result_good.png';
 import resultBadImg from './result_bad.png';
 import resultCanDoBetterImg from './result_can_do_better.png';
 import FacebookProvider, { Share } from 'react-facebook';
+import { track, EVENT_TYPE_PRODUCT } from 'app/utils/eventTrack';
 
 export default class NumberTest extends React.PureComponent {
   constructor(props) {
@@ -59,6 +60,7 @@ export default class NumberTest extends React.PureComponent {
       completeCurrentNumberOnce: false,
       history: [],
     });
+    track('restart-test', EVENT_TYPE_PRODUCT);
   }
 
   onNextTest() {
@@ -67,12 +69,17 @@ export default class NumberTest extends React.PureComponent {
       userInput: '',
       completeCurrentNumberOnce: false,
     });
+    track('next-number', EVENT_TYPE_PRODUCT);
+    if (this.hasTestFinished()) {
+      track('test-finish', EVENT_TYPE_PRODUCT);
+    }
   }
 
   onClearUserInput() {
     this.setState({
       userInput: '',
     });
+    track('clear-number', EVENT_TYPE_PRODUCT);
   }
 
   onNumberKeyPress(key) {
