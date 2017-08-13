@@ -15,7 +15,7 @@ export default class NumberTestContainer extends React.PureComponent {
   }
 
   buildNumbers() {
-    return createNumberTest(10, ALL_NUMBER_DATA);
+    return createNumberTest(5, ALL_NUMBER_DATA);
   }
 
   onRestart() {

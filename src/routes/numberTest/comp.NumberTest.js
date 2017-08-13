@@ -26,6 +26,7 @@ export default class NumberTest extends React.PureComponent {
     this.onNumberKeyPress = this.onNumberKeyPress.bind(this);
     this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
     this.onClearUserInput = this.onClearUserInput.bind(this);
+    this.onShowAnswer = this.onShowAnswer.bind(this);
   }
 
   handleWindowKeyPress(e) {
@@ -72,6 +73,18 @@ export default class NumberTest extends React.PureComponent {
     track('next-number', EVENT_TYPE_PRODUCT);
     if (this.hasTestFinished()) {
       track('test-finish', EVENT_TYPE_PRODUCT);
+    }
+  }
+
+  onShowAnswer() {
+    const originUserInput = this.state.userInput;
+    this.setState({
+      userInput: String(this.getCurrentNumber()),
+    });
+
+    if (!this.state.completeCurrentNumberOnce) {
+      this.state.completeCurrentNumberOnce = true;
+      this.saveUserResult(originUserInput);
     }
   }
 
@@ -187,6 +200,9 @@ export default class NumberTest extends React.PureComponent {
       <button
         className="ui button basic"
         onClick={this.onClearUserInput}>Clear</button>
+      <button
+        className="ui button basic"
+        onClick={this.onShowAnswer}>Show Answer</button>
       <button
         disabled={!correct}
         className="ui button primary"
