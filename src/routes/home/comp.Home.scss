@@ -11,6 +11,7 @@
   height: calc(100% - 73px);
   font-size: 30px;
   font-weight: bold;
+  flex-direction: column;
 }
 
 .start-button {
@@ -31,5 +32,13 @@
   &:hover, &:active {
     color: black;
     background: white;
+  }
+}
+
+.setting {
+  margin-top: 20px;
+  font-size: 24px;
+  a {
+    text-decoration: underline;
   }
 }

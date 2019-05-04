@@ -8,6 +8,9 @@ export default function Home() {
     className={style.container}
     onClick={() => track('start-test', EVENT_TYPE_PRODUCT)}>
     <Link className={style.startButton} to="/number-test">Start Test</Link>
+    <div className={style.setting}>
+      Or <Link to="/setting">Customize Test</Link>
+    </div>
   </div>);
 }
 

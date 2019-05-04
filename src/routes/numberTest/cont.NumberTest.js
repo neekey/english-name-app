@@ -2,6 +2,7 @@ import React from 'react';
 import NumberTest from './comp.NumberTest';
 import { getAllNumbersData } from 'app/data/numbers';
 import { createNumberTest } from 'app/utils/testMaker';
+import { getSetting } from 'app/data/setting';
 
 const ALL_NUMBER_DATA = getAllNumbersData();
 
@@ -15,7 +16,12 @@ export default class NumberTestContainer extends React.PureComponent {
   }
 
   buildNumbers() {
-    return createNumberTest(5, ALL_NUMBER_DATA);
+    const setting = getSetting();
+    return createNumberTest(
+      setting.testRoundSize,
+      ALL_NUMBER_DATA,
+      setting.testNumberUpperLimit
+    );
   }
 
   onRestart() {
